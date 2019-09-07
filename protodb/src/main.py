@@ -162,12 +162,17 @@ outfile.write('%sif uri_.find("sqlite:///") == 0:\n' % (python_block_indent))
 outfile.write('%sfilename = uri_[len("sqlite:///"):]\n' % (python_block_indent*2))
 outfile.write('%simport os\n' % (python_block_indent*2))
 outfile.write('%sos.remove(filename)\n' % (python_block_indent*2))
+outfile.write('%sBase.metadata.create_all(engine)\n' % (python_block_indent*2))
 
 outfile.write('%sif uri_.find("mysql:") == 0:\n' % python_block_indent)
 outfile.write('%sengine.execute("set FOREIGN_KEY_CHECKS=0;")\n' % (python_block_indent*2))
 outfile.write('%sBase.metadata.drop_all(engine)\n' % (python_block_indent*2))
 outfile.write('%sengine.execute("set FOREIGN_KEY_CHECKS=1;")\n' % (python_block_indent*2))
-outfile.write('%sBase.metadata.create_all(engine)\n' % python_block_indent)
+outfile.write('%sBase.metadata.create_all(engine)\n' % (python_block_indent*2))
+
+outfile.write('%sif uri_.find("postgresql+pg8000:") == 0:\n' % python_block_indent)
+outfile.write('%sBase.metadata.drop_all(engine)\n' % (python_block_indent*2))
+outfile.write('%sBase.metadata.create_all(engine)\n' % (python_block_indent*2))
 
 outfile.write("\n")
 
